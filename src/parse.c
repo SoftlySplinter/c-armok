@@ -26,6 +26,8 @@ int syntax_check_token(char token) {
     return ret;
   }
 
+  if(token == '\n' || token == ' ') return 1;
+
   // Subroutine and dwarf token.
   if(token == SUB) {
     sub++;
@@ -67,7 +69,6 @@ int syntax_check(char *tokens) {
         break;
       default:
         res = syntax_check_token(token);
-//        result = result + res;
         if(!res) {
           fprintf(stderr, "file.df:%d:%d: error: %s\n", byte, line,  parse_error);
         }
@@ -99,9 +100,7 @@ fortress *parse(char *tokens) {
   fort->dwarves = malloc(sizeof(dwarf*) * fort->dwarf_size);
   fort->subs = malloc(sizeof(sub*) * fort->sub_size);
   int cur_dwarf_id = -1;
-  dwarf *cur_dwarf = NULL;
-  int cur_sub_id = 0;
-  sub *cur_sub = NULL;
+  int cur_sub_id = -1;
   int dwarf_or_sub = 0;
 
   char token;
@@ -115,6 +114,7 @@ fortress *parse(char *tokens) {
         d->id = cur_dwarf_id;
         d->pos = 1;
         d->instructions = malloc(sizeof(char));
+        d->dead = 1;
         fort->dwarves[cur_dwarf_id] = d;
         dwarf_or_sub = 1;
         break;

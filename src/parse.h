@@ -20,6 +20,7 @@ typedef struct _dwarf {
   int id;
   int pos;
   char *instructions;
+  int dead;
 } dwarf;
 
 typedef struct _fortress {
