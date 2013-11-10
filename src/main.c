@@ -9,7 +9,11 @@ int main(int argc, char** argv) {
     return 255;
   }
 
-  syntax_check(argv[argc-1]);
+  if(syntax_check(argv[argc-1])) {
+    fortress *fort = parse(argv[argc-1]);
+    printf("%s\n", fort->dwarves[0]->instructions);
+    free_fort(fort);
+  }
 
   return EXIT_SUCCESS;
 }
