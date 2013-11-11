@@ -7,8 +7,10 @@
 int step_count = 0;
 int rock_pos = 4;
 int* world;
+char* input = NULL;
 
-void setup() {
+void setup(char *in) {
+  input = in;
   world = malloc(sizeof(int) * WORLD_SIZE);
   world[0] = 0;
   world[1] = 0;
@@ -59,12 +61,18 @@ void step(dwarf *dwarf) {
           switch(world[dwarf->pos]) {
             case TRADER:
               if(dwarf->rocks == 0) {
-                printf("\nElves stabbed a dwarf in the back\n");
-                dwarf->dead = 1;
+                if(*input = '\0') {
+                  printf("\nElves stabbed a dwarf in the back\n");
+                  dwarf->dead = 1;
+                } else {
+                  printf("%s\n", input); 
+//                  dwarf->rocks = (int) *input;
+                  input++;
+                }
               } else {
                 unsigned char character = dwarf->rocks;
                 printf("%c", character, dwarf->rocks);
-                dwarf->rocks = 1;
+                dwarf->rocks = 0;
               }
             default:
               switch(-dwarf->rocks) {

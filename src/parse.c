@@ -149,17 +149,14 @@ fortress *parse(char *tokens) {
 
 void free_fort(fortress* fortress) {
   for(int i = 0; i < fortress->dwarf_size; i++) {
-    printf("Freeing dwarf %d\n", i);
     free(fortress->dwarves[i]->instructions);
     free(fortress->dwarves[i]);
   }
   for(int i = 0; i< fortress->sub_size; i++) {
-    printf("Freeing sub %d\n", i);
     free(fortress->subs[i]->instructions);
     free(fortress->subs[i]);
   }
 
-  printf("Freeing fortress\n");
   free(fortress);
 }
 

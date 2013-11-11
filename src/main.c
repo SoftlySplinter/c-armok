@@ -19,10 +19,10 @@ int main(int argc, char** argv) {
     return 255;
   }
 
-  if(syntax_check(argv[argc-1])) {
-    fortress *fort = parse(argv[argc-1]);
+  if(syntax_check(argv[1])) {
+    fortress *fort = parse(argv[1]);
 
-    setup();
+    setup(argv[2]);
 
     while(dwarves_alive(fort)) {
       for(int i = 0; i < fort->dwarf_size; i++) {
