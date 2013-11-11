@@ -21,6 +21,7 @@ typedef struct _dwarf {
   int pos;
   char *instructions;
   int dead;
+  int rocks;
 } dwarf;
 
 typedef struct _fortress {

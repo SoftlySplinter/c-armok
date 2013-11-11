@@ -114,7 +114,8 @@ fortress *parse(char *tokens) {
         d->id = cur_dwarf_id;
         d->pos = 1;
         d->instructions = malloc(sizeof(char));
-        d->dead = 1;
+        d->dead = 0;
+        d->rocks = 0;
         fort->dwarves[cur_dwarf_id] = d;
         dwarf_or_sub = 1;
         break;
