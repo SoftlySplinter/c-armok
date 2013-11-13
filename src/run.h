@@ -4,7 +4,7 @@
 #include "parse.h"
 
 #define WORLD_SIZE 255
-#define ROCKS 63
+#define ROCKS 64
 #define TRADER -1
 #define MANAGER -2
 #define APPRAISER -3

@@ -25,6 +25,32 @@ void teardown() {
   free(world);
 }
 
+void move(dwarf *dwarf, int direction) {
+  int amount = 0;
+
+  switch(direction) {
+    case LEFT:
+      amount = -1;
+      break;
+    case RIGHT:
+      amount = 1;
+      break;
+    default:
+      fprintf(stderr, "Invalid Direction: %d", direction);
+  }
+
+  dwarf->pos = dwarf->pos + amount;
+
+  if(dwarf->pos == 0) {
+    printf("\nA dwarf went insane and tried to swim in lava\n");
+    dwarf->dead = 1;
+  }
+  if(dwarf->pos == rock_pos) {
+    printf("\nA dwarf was hammered by stone\n");
+    dwarf->dead = 1;
+  }
+}
+
 void step(dwarf *dwarf) {
   if(!dwarf->dead) {
     if(strlen(dwarf->instructions) <= step_count) {
@@ -32,21 +58,10 @@ void step(dwarf *dwarf) {
       dwarf->dead = 1;
     } else {
       char token = *(dwarf->instructions+step_count);
-//      printf("%c\n", token);
       switch(token) {
         case LEFT:
-          dwarf->pos = dwarf->pos - 1;
-          if(dwarf->pos == 0) {
-            printf("\nA dwarf went insane and tried to swim in lava\n");
-            dwarf->dead = 1;
-          }
-          break;
         case RIGHT:
-          dwarf->pos = dwarf->pos + 1;
-          if(dwarf->pos == rock_pos) {
-            printf("\nA dwarf was hammered by stone\n");
-            dwarf->dead = 1;
-          }
+          move(dwarf, token);
           break;
         case MINE:
           if(dwarf->pos == rock_pos - 1) {
@@ -61,21 +76,21 @@ void step(dwarf *dwarf) {
           switch(world[dwarf->pos]) {
             case TRADER:
               if(dwarf->rocks == 0) {
-                if(*input = '\0') {
+                if(input == NULL || *input == '\0') {
                   printf("\nElves stabbed a dwarf in the back\n");
                   dwarf->dead = 1;
                 } else {
-                  printf("%s\n", input); 
-//                  dwarf->rocks = (int) *input;
+//                  printf("%s\n", input); 
+                  dwarf->rocks = (int) *input;
                   input++;
                 }
               } else {
-                unsigned char character = dwarf->rocks;
-                printf("%c", character, dwarf->rocks);
+                printf("%c", (unsigned char) dwarf->rocks);
                 dwarf->rocks = 0;
               }
+              break;
             default:
-              switch(-dwarf->rocks) {
+              switch(-(dwarf->rocks)) {
                 case 0:
                   printf("A dwarf when stark raving mad\n");
                   dwarf->dead = 1;
@@ -83,7 +98,8 @@ void step(dwarf *dwarf) {
                 case TRADER:
                 case MANAGER:
                 case APPRAISER:
-                  world[dwarf->pos] = -dwarf->rocks;
+                  world[dwarf->pos] = -(dwarf->rocks);
+                  dwarf->rocks = 0;
                   break;
               }
           }
