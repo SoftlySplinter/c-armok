@@ -29,6 +29,7 @@ void setup(char *in, fortress *_fort) {
 }
 
 void teardown() {
+  printf("\n");
   free(world);
 }
 
@@ -41,18 +42,16 @@ void move(dwarf *dwarf, int direction) {
     case RIGHT:
       amount = 1;
       break;
-    default:
-      fprintf(stderr, "Invalid Direction: %d", direction);
   }
 
   dwarf->pos = dwarf->pos + amount;
 
   if(dwarf->pos == 0) {
-    printf("\nA dwarf went insane and tried to swim in lava\n");
+    fprintf(stderr, "A dwarf went insane and tried to swim in lava\n");
     dwarf->dead = 1;
   }
   if(dwarf->pos == rock_pos) {
-    printf("\nA dwarf was hammered by stone\n");
+    fprintf(stderr, "A dwarf was hammered by stone\n");
     dwarf->dead = 1;
   }
 }
@@ -70,7 +69,7 @@ void mine(dwarf *dwarf) {
 void work_trader(dwarf *dwarf) {
   if(dwarf->rocks == 0) {
     if(input == NULL || *input == '\0') {
-      printf("\nElves stabbed a dwarf in the back\n");
+      fprintf(stderr, "Elves stabbed a dwarf in the back\n");
       dwarf->dead = 1;
     } else {
       dwarf->rocks = (int) *input;
@@ -87,20 +86,17 @@ void work_manager(dwarf *dwarf) {
     printf("A dwarf was executed for breaking a mandate\n");
     dwarf->dead = 1;
   } else if(world[dwarf->pos] == 0) {
-    printf("Destroying workshop\n");
     workshops[dwarf->pos] = 0;
   } else {
     char *new_inst = fort->dwarves[world[dwarf->pos] - 1]->instructions;
     char *remain_inst = dwarf->instructions + dwarf->inst_offset + step_count + 1;
 
-//    printf("%s + %s\n", new_inst, remain_inst);
 
     if(strlen(remain_inst) <= 0) {
       free(dwarf->instructions);
       dwarf->instructions = malloc(sizeof(char) * strlen(new_inst));
       strcpy(dwarf->instructions, new_inst);
       dwarf->inst_offset = -(step_count + 1);
-//      printf("%s\n", dwarf->instructions);
     } else {
       dwarf->inst_offset = -(step_count + 1);
       dwarf->instructions = malloc(sizeof(char) * (strlen(new_inst) + strlen(remain_inst)));
@@ -128,7 +124,7 @@ void work(dwarf *dwarf) {
   default:
     switch(dwarf->rocks) {
       case 0:
-        printf("A dwarf when stark raving mad\n");
+        fprintf(stderr, "A dwarf when stark raving mad\n");
         dwarf->dead = 1;
         break;
       case TRADER:
@@ -146,8 +142,7 @@ void work(dwarf *dwarf) {
 void step(dwarf *dwarf) {
   if(!dwarf->dead) {
     if(strlen(dwarf->instructions) <= dwarf->inst_offset + step_count) {
-      printf("%c\n", *(dwarf->instructions));
-      printf("\nA dwarf was struck by melancholy\n");
+      fprintf(stderr, "A dwarf was struck by melancholy\n");
       dwarf->dead = 1;
     } else {
       char token = *(dwarf->instructions + dwarf->inst_offset + step_count);

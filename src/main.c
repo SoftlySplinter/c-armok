@@ -13,14 +13,36 @@ int dwarves_alive(fortress *fort) {
   return 0;
 }
 
+char *load(char *filename) {
+  char * buffer = 0;
+  long length;
+   FILE * f = fopen (filename, "rb");
+
+  if (f)
+  {
+    fseek (f, 0, SEEK_END);
+    length = ftell (f);
+    fseek (f, 0, SEEK_SET);
+    buffer = malloc (length);
+    if (buffer)
+    {
+      fread (buffer, 1, length, f);
+    }
+    fclose (f);
+  }
+  return buffer;  
+}
+
 int main(int argc, char** argv) {
   if(argc <= 1) {
     fprintf(stderr, "Expected at least 1 argument\n");
     return 255;
   }
 
-  if(syntax_check(argv[1])) {
-    fortress *fort = parse(argv[1]);
+  char *prog = load(argv[1]);
+
+  if(syntax_check(prog)) {
+    fortress *fort = parse(prog);
 
     setup(argv[2], fort);
 
