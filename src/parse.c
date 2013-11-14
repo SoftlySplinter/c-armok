@@ -115,7 +115,11 @@ fortress *parse(char *tokens) {
         d->rocks = 0;
         fort->dwarves[cur_id] = d;
         break;
-      default:
+      case MINE:
+      case WORK:
+      case DUMP:
+      case LEFT:
+      case RIGHT:
         ;
         char *inst = fort->dwarves[cur_id]->instructions;
         int len = strlen(inst);

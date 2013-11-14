@@ -102,17 +102,10 @@ void work_manager(dwarf *dwarf) {
       dwarf->inst_offset = -(step_count + 1);
 //      printf("%s\n", dwarf->instructions);
     } else {
-      char *temp = malloc(sizeof(char) * strlen(remain_inst));
-      strcpy(temp, remain_inst);
       dwarf->inst_offset = -(step_count + 1);
-//      free(dwarf->instructions);
-      char *new = malloc(sizeof(char) * strlen(new_inst) + strlen(temp));
-      strcat(new, new_inst);
-      strcat(new, temp);
-      dwarf->instructions = malloc(sizeof(char) * strlen(new));
-      strcpy(dwarf->instructions, new);
-//      free(new);
-//      free(temp);
+      dwarf->instructions = malloc(sizeof(char) * (strlen(new_inst) + strlen(remain_inst)));
+      strcat(dwarf->instructions, new_inst);
+      strcat(dwarf->instructions, remain_inst);
     }
   }
 }
