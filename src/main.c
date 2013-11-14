@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include "syntax.h"
 #include "parse.h"
 #include "run.h"
 

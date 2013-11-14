@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "syntax.h"
 #include "run.h"
 
 int step_count = 0;

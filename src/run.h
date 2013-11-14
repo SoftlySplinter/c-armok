@@ -1,5 +1,5 @@
-#ifndef DF_RUN
-#define DF_RUN
+#ifndef ARMOK_RUN
+#define ARMOK_RUN
 
 #include "parse.h"
 
