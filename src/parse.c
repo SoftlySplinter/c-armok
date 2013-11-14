@@ -26,7 +26,7 @@ int syntax_check_token(char token) {
     return ret;
   }
 
-  if(token == '\n' || token == ' ') return 1;
+  if(token == '\n' || token == ' ' || token == '\t') return 1;
 
   // Subroutine and dwarf token.
   if(token == SUB) {
