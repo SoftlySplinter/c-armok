@@ -58,7 +58,6 @@ int syntax_check(char *tokens) {
   char token;
   int line = 1;
   int byte = 1;
-  int result = 1;
   int res;
   do {
     token = *tokens;
@@ -94,14 +93,10 @@ int count(char *tokens, char search) {
 
 fortress *parse(char *tokens) {
   fortress *fort = malloc(sizeof(fortress));
-  fort->dwarf_size = count(tokens, DWARF);
-  fort->sub_size = count(tokens, SUB);
+  fort->dwarf_size = count(tokens, DWARF) + count(tokens, SUB);
   fort->alive = fort->dwarf_size;
   fort->dwarves = malloc(sizeof(dwarf*) * fort->dwarf_size);
-  fort->subs = malloc(sizeof(sub*) * fort->sub_size);
-  int cur_dwarf_id = -1;
-  int cur_sub_id = -1;
-  int dwarf_or_sub = 0;
+  int cur_id = -1;
 
   char token;
   do {
@@ -109,39 +104,25 @@ fortress *parse(char *tokens) {
     
     switch(token) {
       case DWARF:
-        cur_dwarf_id++;
+      case SUB:
+        cur_id++;
         dwarf *d = malloc(sizeof(dwarf));
-        d->id = cur_dwarf_id;
+        d->id = cur_id;
         d->pos = 1;
         d->instructions = malloc(sizeof(char));
-        d->dead = 0;
+        d->inst_offset = 0;
+        d->dead = (token != DWARF);
         d->rocks = 0;
-        fort->dwarves[cur_dwarf_id] = d;
-        dwarf_or_sub = 1;
-        break;
-      case SUB:
-        cur_sub_id++;
-        sub *s = malloc(sizeof(sub));
-        s->id = cur_sub_id;
-        s->instructions = malloc(sizeof(char));
-        fort->subs[cur_sub_id] = s;
-        dwarf_or_sub = 2;
+        fort->dwarves[cur_id] = d;
         break;
       default:
-        if(dwarf_or_sub == 1) {
-          char *inst = fort->dwarves[cur_dwarf_id]->instructions;
-          int len = strlen(inst);
-          fort->dwarves[cur_dwarf_id]->instructions = (char *) realloc(inst, len + 1);
-          strncat(inst, &token, len + 1);
-        }
-        if(dwarf_or_sub == 2) {
-          char *inst = fort->subs[cur_sub_id]->instructions;
-          int len = strlen(inst);
-          fort->subs[cur_sub_id]->instructions = (char *) realloc(inst, len + 1);
-          strncat(inst, &token, len + 1);
-        }
+        ;
+        char *inst = fort->dwarves[cur_id]->instructions;
+        int len = strlen(inst);
+        fort->dwarves[cur_id]->instructions = (char *) realloc(inst, len + 1);
+        char addition[2] = {token, '\0'};           
+        strncat(inst, addition, len + 1);
     }
-
     tokens++;
   } while(token != '\0');
   return fort;
@@ -152,11 +133,6 @@ void free_fort(fortress* fortress) {
     free(fortress->dwarves[i]->instructions);
     free(fortress->dwarves[i]);
   }
-  for(int i = 0; i< fortress->sub_size; i++) {
-    free(fortress->subs[i]->instructions);
-    free(fortress->subs[i]);
-  }
-
   free(fortress);
 }
 

@@ -22,7 +22,7 @@ int main(int argc, char** argv) {
   if(syntax_check(argv[1])) {
     fortress *fort = parse(argv[1]);
 
-    setup(argv[2]);
+    setup(argv[2], fort);
 
     while(dwarves_alive(fort)) {
       for(int i = 0; i < fort->dwarf_size; i++) {

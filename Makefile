@@ -1,19 +1,22 @@
-CC=gcc
+CC=clang
 CFLAGS=-std=c99 -g -Wall
+
+OUT=bin/
+SRC=src/
 
 all: compile
 
-compile: bin/armok
+compile: armok
 	mv bin/armok armok
 
-bin/armok: bin/run.o bin/parse.o
-	${CC} ${CFLAGS} -o bin/armok src/main.c bin/run.o bin/parse.o
+armok: interpreter parser
+	${CC} ${CFLAGS} -o ${OUT}/armok ${SRC}/main.c ${OUT}/run.o ${OUT}/parse.o
 
-bin/run.o: bin/parse.o
-	${CC} ${CFLAGS} -c -o bin/run.o src/run.c
+interpreter: parser
+	${CC} ${CFLAGS} -c -o ${OUT}/run.o ${SRC}/run.c
 
-bin/parse.o:
-	${CC} ${CFLAGS} -c -o bin/parse.o src/parse.c
+parser:
+	${CC} ${CFLAGS} -c -o ${OUT}/parse.o ${SRC}/parse.c
 
 clean:
 	rm bin/*.o armok

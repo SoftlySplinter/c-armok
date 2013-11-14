@@ -9,17 +9,12 @@
 #define WORK 'w'
 #define DUMP 'd'
 
-// Defines a subroutine
-typedef struct _sub {
-  int id;
-  char *instructions;
-} sub;
-
 // Defines a dwarf
 typedef struct _dwarf {
   int id;
   int pos;
   char *instructions;
+  int inst_offset;
   int dead;
   int rocks;
 } dwarf;
@@ -29,7 +24,6 @@ typedef struct _fortress {
   int sub_size;
   int alive;
   dwarf **dwarves;
-  sub **subs;
 } fortress;
 
 // Checks the syntax of a program file is valid

@@ -1,4 +1,5 @@
 bin/
+armok
 
 # Object files
 *.o

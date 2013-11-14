@@ -5,9 +5,9 @@
 
 #define WORLD_SIZE 255
 #define ROCKS 64
-#define TRADER -1
-#define MANAGER -2
-#define APPRAISER -3
+#define TRADER 1
+#define MANAGER 2
+#define APPRAISER 3
 
 
 void setup();
