@@ -31,6 +31,7 @@ void setup(char *in, fortress *_fort) {
 void teardown() {
   printf("\n");
   free(world);
+  free(workshops);
 }
 
 void move(dwarf *dwarf, int direction) {
@@ -99,9 +100,11 @@ void work_manager(dwarf *dwarf) {
       dwarf->inst_offset = -(step_count + 1);
     } else {
       dwarf->inst_offset = -(step_count + 1);
-      dwarf->instructions = malloc(sizeof(char) * (strlen(new_inst) + strlen(remain_inst)));
-      strcat(dwarf->instructions, new_inst);
-      strcat(dwarf->instructions, remain_inst);
+      char *new = (char *) malloc(sizeof(char) * (strlen(new_inst) + strlen(remain_inst) + 1));
+      new = strcpy(new, new_inst);
+      new = strcat(new, remain_inst);
+      free(dwarf->instructions);
+      dwarf->instructions = new;
     }
   }
 }

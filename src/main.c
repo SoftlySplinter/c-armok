@@ -55,6 +55,7 @@ int main(int argc, char** argv) {
 
     teardown();
     free_fort(fort);
+    free(prog);
   }
 
   return EXIT_SUCCESS;

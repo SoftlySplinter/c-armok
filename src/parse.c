@@ -122,11 +122,11 @@ fortress *parse(char *tokens) {
         cur->id = cur_id;
         cur->pos = 1;
         int l = inst_len(tokens);
-        cur->instructions = malloc(sizeof(char) * l);
         cur->inst_offset = 0;
         cur->dead = (token != DWARF);
         cur->rocks = 0;
         fort->dwarves[cur_id] = cur;
+        fort->dwarves[cur_id]->instructions = malloc(sizeof(char) * l);
         step = 0;
         break;
       case MINE:
