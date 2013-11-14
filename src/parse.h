@@ -9,35 +9,30 @@
 #define WORK 'w'
 #define DUMP 'd'
 
-// Defines an instruction stack
-typedef struct _instr_stack {
-  char instruction;
-  struct _instr_stack *next;
-} instr_stack;
-
-// Defines a subroutine
-typedef struct _sub {
-  int id;
-  instr_stack *instructions;
-} sub;
-
 // Defines a dwarf
 typedef struct _dwarf {
   int id;
   int pos;
-  sub* work_orders;
+  char *instructions;
+  int inst_offset;
+  int dead;
+  int rocks;
 } dwarf;
+
+typedef struct _fortress {
+  int dwarf_size;
+  int sub_size;
+  int alive;
+  dwarf **dwarves;
+} fortress;
 
 // Checks the syntax of a program file is valid
 int syntax_check(char *tokens);
 
 // Parses a program file
-void parse(char *tokens);
+fortress *parse(char *tokens);
 
-// Parses a token
-void parse_token(char token);
 
-// Adds an instruction to an instruction stack
-void add_instruction(char token, instr_stack *stack);
+void free_fort(fortress* fortress);
 
 #endif // ARMOK_PARSE
