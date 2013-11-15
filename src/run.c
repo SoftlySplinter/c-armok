@@ -111,7 +111,10 @@ void work_manager(dwarf *dwarf) {
 }
 
 void work_appraiser(dwarf *dwarf) {
-
+  if(dwarf->rocks > world[dwarf->pos]) {
+    dwarf->rocks--;
+    world[dwarf->pos - 1]++;
+  }
 }
 
 void work(dwarf *dwarf) {
