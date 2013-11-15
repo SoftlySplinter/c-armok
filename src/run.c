@@ -13,6 +13,7 @@ int* world;
 int* workshops;
 fortress* fort;
 wchar_t* input = NULL;
+int input_off = 0;
 
 void setup(char *in, fortress *_fort) {
   if(in != NULL) {
@@ -76,13 +77,13 @@ void mine(dwarf *dwarf) {
 
 void work_trader(dwarf *dwarf) {
   if(dwarf->rocks == 0) {
-    if(input == NULL || *input == '\0') {
+    if(input == NULL || *(input + input_off) == 0x0000) {
       fprintf(stderr, "Elves stabbed a dwarf in the back\n");
       dwarf->dead = 1;
     } else {
-      wchar_t i = decode(*input);
+      wchar_t i = decode(*(input + input_off));
       dwarf->rocks = i;
-      input++;
+      input_off++;
     }
   } else {
     printf("%lc", encode(dwarf->rocks));

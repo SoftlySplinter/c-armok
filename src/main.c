@@ -57,8 +57,8 @@ int main(int argc, char** argv) {
       step_inc();
     }
 
-    teardown();
     free_fort(fort);
+    teardown();
     free(prog);
   }
 
