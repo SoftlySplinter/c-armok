@@ -174,7 +174,7 @@ w Work
 
 ## <a name="installation" />Installation
 
-Armok is supplied with a standard C makefile. Currently no system-wide (`make install`).
+Armok is supplied with a standard C makefile.
 
 
 ## <a name="running" />Running
