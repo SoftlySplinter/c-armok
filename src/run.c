@@ -1,7 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <wchar.h>
 
+#include "encode.h"
+#include "syntax.h"
 #include "run.h"
 
 int step_count = 0;
@@ -9,10 +12,14 @@ int rock_pos = 4;
 int* world;
 int* workshops;
 fortress* fort;
-char* input = NULL;
+wchar_t* input = NULL;
+int input_off = 0;
 
 void setup(char *in, fortress *_fort) {
-  input = in;
+  if(in != NULL) {
+    input = malloc(sizeof(wchar_t) * strlen(in));
+    mbstowcs(input, in, strlen(in));
+  }
   world = malloc(sizeof(int) * WORLD_SIZE);
   workshops = malloc(sizeof(int) * WORLD_SIZE);
   fort = _fort;
@@ -30,6 +37,7 @@ void setup(char *in, fortress *_fort) {
 
 void teardown() {
   printf("\n");
+  free(input);
   free(world);
   free(workshops);
 }
@@ -69,22 +77,23 @@ void mine(dwarf *dwarf) {
 
 void work_trader(dwarf *dwarf) {
   if(dwarf->rocks == 0) {
-    if(input == NULL || *input == '\0') {
+    if(input == NULL || *(input + input_off) == 0x0000) {
       fprintf(stderr, "Elves stabbed a dwarf in the back\n");
       dwarf->dead = 1;
     } else {
-      dwarf->rocks = (int) *input;
-      input++;
+      wchar_t i = decode(*(input + input_off));
+      dwarf->rocks = i;
+      input_off++;
     }
   } else {
-    printf("%c", (unsigned char) dwarf->rocks);
+    printf("%lc", encode(dwarf->rocks));
     dwarf->rocks = 0;
   }
 }
 
 void work_manager(dwarf *dwarf) {
   if(world[dwarf->pos] > fort->dwarf_size) {
-    printf("A dwarf was executed for breaking a mandate\n");
+    fprintf(stderr, "A dwarf was executed for breaking a mandate\n");
     dwarf->dead = 1;
   } else if(world[dwarf->pos] == 0) {
     workshops[dwarf->pos] = 0;
@@ -110,7 +119,10 @@ void work_manager(dwarf *dwarf) {
 }
 
 void work_appraiser(dwarf *dwarf) {
-
+  if(dwarf->rocks > world[dwarf->pos]) {
+    dwarf->rocks--;
+    world[dwarf->pos - 1]++;
+  }
 }
 
 void work(dwarf *dwarf) {

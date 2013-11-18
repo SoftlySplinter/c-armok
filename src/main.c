@@ -1,6 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <locale.h>
 
+#include "syntax.h"
 #include "parse.h"
 #include "run.h"
 
@@ -34,6 +36,8 @@ char *load(char *filename) {
 }
 
 int main(int argc, char** argv) {
+  setlocale(LC_ALL,"");
+
   if(argc <= 1) {
     fprintf(stderr, "Expected at least 1 argument\n");
     return 255;
@@ -53,8 +57,8 @@ int main(int argc, char** argv) {
       step_inc();
     }
 
-    teardown();
     free_fort(fort);
+    teardown();
     free(prog);
   }
 
