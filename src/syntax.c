@@ -4,25 +4,28 @@
 
 char *syntax_error = NULL;
 
+int comment = 0;
 int sub = 0;
 int dwarf = 0;
 
 int syntax_check_token(char token) {
-  if(isspace(token)) {
-    return 1;
-  }
-
   switch(token) {
   case '\0':
     if(!(dwarf > 0)) {
       syntax_error = "No dwarves";
     }
     return dwarf > 0;
+  case COMMENT:
+    comment ^= 1;
   case SUB:
     sub++;
     return 1;
   case DWARF:
     dwarf++;
+    return 1;
+  }
+
+  if(isspace(token) || comment) {
     return 1;
   }
 

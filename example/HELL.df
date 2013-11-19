@@ -1,7 +1,28 @@
-+>>mw
+! HELL.df !
+
+! Create a new Dwarf !
++
+
+! Move to the wall !
+>>
+
+! Mine and create a trade depo !
+mw
+
+! Mine 72 rocks ('H' = 0x0048) !
 mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm>mmmmmmmmmm<w>
+
+! Mine 70 rocks ('E' = 0x0045) !
 mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm>mmmmmmmmmmmmmmm<<w>>
+
+! Mine 76 rocks ('L' = 0x007c) !
 mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm>mmmmmmmmmmmmmmmmmmmmmmmmmmm<<<w>>>
+
+! Mine 76 rocks ('L' = 0x007c) !
 mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm>mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm<<<<w>>>>
+
+! Mine 1 rock because every program needs a smily face !
 m<<<<w
+
+! Go mad and run into lava to terminate the program !
 <<<

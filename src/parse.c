@@ -20,10 +20,12 @@ int count(char *tokens, char search) {
 
 int inst_len(char *tokens) {
   int len = 0;
+  int comment = 0;
   while(*(tokens + 1 + len) != DWARF && 
         *(tokens + 1 + len) != SUB && 
         *(tokens + 1 + len) != '\0') {
-    len++;
+    if(*(tokens + 1) == COMMENT) comment ^= 1;
+    if(!comment) len++;
   }
   return len;
 }
@@ -34,14 +36,23 @@ fortress *parse(char *tokens) {
   fort->alive = fort->dwarf_size;
   fort->dwarves = malloc(sizeof(dwarf*) * fort->dwarf_size);
   int cur_id = -1;
+  int comment = 0;
   dwarf *cur = NULL;
 
   char token;
   int step = 0;
   do {
+    #ifdef DEBUG
+    printf("Processing Token: %c\n", token);
+    #endif
+
     token = *tokens;
-    
-    switch(token) {
+
+    if(token == COMMENT) {
+      comment ^= 1;
+    }
+    if(!comment) {
+      switch(token) {
       case DWARF:
       case SUB:
         cur_id++;
@@ -63,6 +74,7 @@ fortress *parse(char *tokens) {
       case RIGHT:
         cur->instructions[step] = token;
         step++;
+      }
     }
     tokens++;
   } while(token != '\0');

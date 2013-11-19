@@ -19,9 +19,12 @@ syn match dfFunction "w"
 syn match dfStatement "m"
 syn match dfStatement "d"
 
+syn match dfComment "!.*!"
+
 hi link dfType Type
 hi link dfStatement Statement
 hi link dfFunction Function
 hi link dfString String
+hi link dfComment Comment
 
 let b:current_syntax = "df"
