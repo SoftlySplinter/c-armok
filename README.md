@@ -39,9 +39,7 @@ When all dwarves are dead, the program terminates.
 
 Armok simulates a cave, with any number of dwarves in it.
 
-```
-≈...▓▓▓
-````
+`≈...▓▓▓`
 
 * `≈` is lava.
 * `.` is empty space.
@@ -53,6 +51,8 @@ The cave is 256 blocks long at current. All positions from 4 onwards are rock.
 ### <a name="language-instructions" />Instruction Set
 
 There are 7 instructions in Armok, 5 to control dwarves. The other 2 handle the creation of dwarfs and work orders.
+
+There is also support for comments in the style: `!! Fun Comment !!`
 
 #### <a name="language-instructions-dwarf" /> `+` Create Dwarf
 
@@ -96,13 +96,21 @@ The dwarf mines the tile to the right of it. If it is a rock wall then it is cha
 If the dwarf has any, it will dump a rock onto the tile on its left.
 
 
-#### <a href="language-instructions-work" /> `w` Work
+#### <a name="language-instructions-work" /> `w` Work
 
 The dwarf will construct a workshop or work at an existing one on the current tile.
 
 See the [Workshop](#language-workshops) page for more information.
 
 [Fun](#language-fun) occurs if the dwarf tries to construct a workshop with no rocks in its inventory.
+
+#### <a name="language-instructions-comment" /> `!!` Comment
+
+Does nothing other than to help the poor soul writing armok understand after a few barrels of beer.
+
+Comments are wrapped in `!!`. Example: `+ !! Create a new Dwarf !!`.
+
+The contents of comments will, naturally, not be interpreted.
 
 
 ### <a name="language-workshops" />Workshops
