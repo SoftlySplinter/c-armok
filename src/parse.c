@@ -21,10 +21,19 @@ int count(char *tokens, char search) {
 int inst_len(char *tokens) {
   int len = 0;
   int comment = 0;
+  int prev_comment = 0;
   while(*(tokens + 1 + len) != DWARF && 
         *(tokens + 1 + len) != SUB && 
         *(tokens + 1 + len) != '\0') {
-    if(*(tokens + 1) == COMMENT) comment ^= 1;
+    int temp_prev_comment = prev_comment;
+    prev_comment = 0;
+    if(*(tokens + 1) == COMMENT) {
+      if(temp_prev_comment) {
+        comment ^= 1;
+      } else {
+        prev_comment = 1;
+      }
+    }
     if(!comment) len++;
   }
   return len;
@@ -37,6 +46,7 @@ fortress *parse(char *tokens) {
   fort->dwarves = malloc(sizeof(dwarf*) * fort->dwarf_size);
   int cur_id = -1;
   int comment = 0;
+  int prev_comment = 0;
   dwarf *cur = NULL;
 
   char token;
@@ -48,9 +58,16 @@ fortress *parse(char *tokens) {
 
     token = *tokens;
 
+    int temp_prev_comment = prev_comment;
+    prev_comment = 0;
     if(token == COMMENT) {
-      comment ^= 1;
+      if(temp_prev_comment) {
+        comment ^= 1;
+      } else {
+        prev_comment = 1;
+      }
     }
+
     if(!comment) {
       switch(token) {
       case DWARF:
