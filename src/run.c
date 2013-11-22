@@ -71,10 +71,18 @@ void move(dwarf *dwarf, int direction) {
 
   switch(constructs[dwarf->z][dwarf->pos]) {
     case STAIR_UP:
-      dwarf->z--;
+      printf("%d > %d\n", dwarf->rocks, world[dwarf->z][dwarf->pos]);
+      if(dwarf->rocks > world[dwarf->z][dwarf->pos]) {
+        printf("Up\n");
+        dwarf->z--;
+      }
       break;
     case STAIR_DOWN:
-      dwarf->z++;
+      printf("%d > %d\n", dwarf->rocks, world[dwarf->z][dwarf->pos]);
+      if(dwarf->rocks > world[dwarf->z][dwarf->pos]) {
+        printf("Down\n");
+        dwarf->z++;
+      }
       break;
   }
 }
@@ -96,6 +104,10 @@ void work_trader(dwarf *dwarf) {
       dwarf->dead = 1;
     } else {
       wchar_t i = decode(*(input + input_off));
+      if(i<0) {
+        fprintf(stderr, "Elves stabbed a dwarf in the back\n");
+        dwarf->dead = 1;
+      }
       dwarf->rocks = i;
       input_off++;
     }
