@@ -12,6 +12,9 @@ all: compile
 
 compile: armok ${OUT}
 
+debug: CFLAGS = -std=c99 -DDEBUG=0 -g
+debug: compile
+
 armok: interpreter parser syntax encode
 	${CC} ${CFLAGS} -o ${OUT}/armok ${SRC}/main.c ${OUT}/run.o ${OUT}/parse.o ${OUT}/syntax.o ${OUT}/encode.o
 
