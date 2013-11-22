@@ -9,6 +9,7 @@
 #define LEFT '<'
 #define RIGHT '>'
 #define WORK 'w'
+#define BUILD 'b'
 
 // Functions
 #define MINE 'm'

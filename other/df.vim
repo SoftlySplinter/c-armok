@@ -15,20 +15,18 @@ syn match dfFunction ">"
 syn match dfFunction "<"
 
 syn match dfFunction "w"
+syn match dfFunction "b"
 
 syn match dfStatement "m"
 syn match dfStatement "d"
 
 syn region dfComment start="!!" end="!!"
 
-syn region dfValidDwarf start="[+-]" end="[+-]" contains=ALL,dfStatementdfFunction
-
-syn match dfError "." contains=ALLBUT,dfValidDwarfdfComment
+syn match dfError "." contains=ALLBUT,dfCommentdfTypedfFunctiondfStatement
 
 hi link dfType Type
-hi link dfValidDwarf Function
-"hi link dfStatement Statement
-"hi link dfFunction Function
+hi link dfStatement Statement
+hi link dfFunction Function
 hi link dfString String
 hi link dfComment Comment
 hi link dfError Error

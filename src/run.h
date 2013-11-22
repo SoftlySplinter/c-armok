@@ -9,6 +9,8 @@
 #define MANAGER 2
 #define APPRAISER 3
 
+#define STAIR_UP 1
+#define STAIR_DOWN 2
 
 void setup();
 void teardown();

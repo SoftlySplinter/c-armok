@@ -6,6 +6,7 @@
 typedef struct _dwarf {
   int id;
   int pos;
+  int z;
   char *instructions;
   int inst_offset;
   int dead;

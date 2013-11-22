@@ -43,6 +43,7 @@ int syntax_check_token(char token) {
     case MINE:
     case DUMP:
     case WORK:
+    case BUILD:
     case LEFT:
     case RIGHT:
       return 1;
@@ -50,6 +51,11 @@ int syntax_check_token(char token) {
   }
 
   syntax_error = "Illegal token";
+
+  #ifdef DEBUG
+  fprintf(stderr, "Illegal token %c", token);
+  #endif
+
   return 0;
 }
 

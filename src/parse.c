@@ -76,6 +76,7 @@ fortress *parse(char *tokens) {
         dwarf *cur = malloc(sizeof(dwarf));
         cur->id = cur_id;
         cur->pos = 1;
+        cur->z = 127;
         int l = inst_len(tokens);
         cur->inst_offset = 0;
         cur->dead = (token != DWARF);
@@ -86,6 +87,7 @@ fortress *parse(char *tokens) {
         break;
       case MINE:
       case WORK:
+      case BUILD:
       case DUMP:
       case LEFT:
       case RIGHT:
