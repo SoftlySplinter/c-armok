@@ -1,13 +1,19 @@
-CC=gcc
-CFLAGS=-std=c99 -g -Wall
+SHELL=/bin/sh
 
-OUT=bin/
-SRC=src/
+CFLAGS=-std=c99 -g
+
+OUT=bin
+SRC=src
+
+exec_prefix=/usr/local
+bindir=${exec_prefix}/bin
 
 all: compile
 
-compile: armok
-	mv bin/armok armok
+compile: armok ${OUT}
+
+debug: CFLAGS = -std=c99 -DDEBUG=0 -g
+debug: compile
 
 armok: interpreter parser syntax encode
 	${CC} ${CFLAGS} -o ${OUT}/armok ${SRC}/main.c ${OUT}/run.o ${OUT}/parse.o ${OUT}/syntax.o ${OUT}/encode.o
@@ -24,5 +30,13 @@ syntax:
 encode:
 	${CC} ${CFLAGS} -c -o ${OUT}/encode.o ${SRC}/encode.c
 
+install:
+	cp ${OUT}/armok ${bindir}/armok
+
+installdirs: ${bindir} ${OUT}
+
+uninstall:
+	rm ${bindir}/armok
+
 clean:
-	rm bin/*.o armok
+	rmdir ${OUT}
