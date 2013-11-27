@@ -19,5 +19,5 @@ int main(int argc, char **argv) {
   }
   printf("\e[1;30m%d\e[0m assertions, \e[1;31m%d\e[0m failures.\n", number_of_asserts(), number_of_errors());
 
-  return EXIT_SUCCESS;
+  return number_of_errors();
 }
