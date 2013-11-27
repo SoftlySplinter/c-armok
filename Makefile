@@ -4,6 +4,7 @@ CFLAGS=-std=c99 -g
 
 OUT=bin
 SRC=src
+TEST=test
 
 exec_prefix=/usr/local
 bindir=${exec_prefix}/bin
@@ -40,6 +41,18 @@ installdirs: ${bindir} ${OUT}
 
 uninstall:
 	rm ${bindir}/armok
+
+
+test: compile_tests compile
+	${OUT}/runner.o
+
+compile_tests: runner
+
+runner: unit
+	${CC} ${CFLAGS} -o ${OUT}/runner.o ${TEST}/runner.c ${OUT}/unit.o
+
+unit:
+	${CC} ${CFLAGS} -c -o ${OUT}/unit.o ${TEST}/unit.c
 
 clean:
 	rm ${OUT}/*.o
