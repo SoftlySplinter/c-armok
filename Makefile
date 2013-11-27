@@ -43,7 +43,7 @@ uninstall:
 	rm ${bindir}/armok
 
 
-test: compile_tests compile
+test: compile_tests
 	${OUT}/runner.o
 
 compile_tests: runner
