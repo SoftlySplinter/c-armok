@@ -2,7 +2,7 @@
 
 > Programming is fun!<hr />
 
-![Build Status](https://travis-ci.org/SoftlySplinter/c-armok#)
+[![Build Status](https://travis-ci.org/SoftlySplinter/c-armok.png?branch=workshop/test)](https://travis-ci.org/SoftlySplinter/c-armok)
 
 More formally this is a C implementation of [Armok](https://github.com/Frib/Armok).
 
