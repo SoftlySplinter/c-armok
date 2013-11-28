@@ -2,14 +2,27 @@
 #include <stdlib.h>
 
 #include "unit.h"
+#include "../src/syntax.h"
+
+void syntax_tests() {
+  // Syntactically Correct
+  assert(syntax_check("+"), "'+' is syntactically correct.");
+  assert(syntax_check("+mmmm"), "'+mmmm' is syntactically correct.");
+  assert(syntax_check("-m+"), "'-m+' is syntactically correct.");
+  assert(syntax_check("+!!comment!!m"), "'!!comment!!m' is syntactically correct.");
+  
+
+  // Syntactically incorrect
+  assert(!(syntax_check("")), "'' is not syntactically correct");
+  assert(!(syntax_check("m")), "'m' is not syntactically correct");
+  assert(!(syntax_check("-m")), "'-m' is not syntactically correct");
+  assert(!(syntax_check("+l")), "'+l' is not syntactically correct");
+  assert(!(syntax_check("!!comment!!")), "'!!comment!!' is not syntactically correct");
+  assert(!(syntax_check("!!+!!mmm")), "'!!+!!mmm' is not syntactically correct");
+}
 
 int main(int argc, char **argv) {
-  int a = number_of_asserts();
-  int e = number_of_errors();
-  assert(a == 0, "Asserts should start at 0");
-  assert(e == 0, "Errors should start at 0");
-
-  assert(1, "Something");
+  syntax_tests();
 
 
   if(number_of_errors() > 0) {

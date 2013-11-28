@@ -44,12 +44,12 @@ uninstall:
 	rm ${bindir}/armok
 
 test: compile_tests
-	${OUT}/runner.o
+	${OUT}/runner.o 2>/dev/null
 
 compile_tests: runner
 
 runner: unit
-	${CC} -o ${OUT}/runner.o ${ALLFLAGS} ${TEST}/runner.c ${OUT}/unit.o
+	${CC} -o ${OUT}/runner.o ${ALLFLAGS} ${TEST}/runner.c ${OUT}/unit.o ${OUT}/syntax.o
 
 unit:
 	${CC} -c -o ${OUT}/unit.o ${ALLFLAGS} ${TEST}/unit.c

@@ -25,15 +25,19 @@ int syntax_check_token(char token) {
       prev_comment = 1;
     }
     return 1;
+  }
+
+  if(isspace(token) || comment) {
+    return 1;
+  }
+
+
+  switch(token) {
   case SUB:
     sub++;
     return 1;
   case DWARF:
     dwarf++;
-    return 1;
-  }
-
-  if(isspace(token) || comment) {
     return 1;
   }
 
@@ -54,10 +58,16 @@ int syntax_check_token(char token) {
 }
 
 int syntax_check(char *tokens) {
+  comment = 0;
+  prev_comment = 0;
+  dwarf = 0;
+  sub = 0;
+
   char token;
   int line = 1;
   int byte = 1;
   int res;
+  int end_res = 1;
   do {
     token = *tokens;
     switch(token) {
@@ -70,11 +80,12 @@ int syntax_check(char *tokens) {
         if(!res) {
           fprintf(stderr, "file.df:%d:%d: error: %s\n", byte, line, syntax_error);
         }
+        end_res = end_res && res;
         byte++;
         break;
     }
     tokens++;
   } while(token != '\0');
-  return res;
+  return end_res;
 }
 
