@@ -17,6 +17,10 @@
 // Comment
 #define COMMENT '!'
 
+extern int _syn_dwarf;
+extern int _syn_sub;
+extern int _syn_comment;
+
 // Checks the syntax of a token is correct, given all previous tokens.
 //  token - the token to check the correctness of.
 // Returns false if the token is syntacitcally incorrect and will set

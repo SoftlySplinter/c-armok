@@ -9,7 +9,7 @@ void assert(int condition, char *message) {
   asserts++;
   if(!condition) {
     errors++;
-    fprintf(stderr, "\e[1;31mAssertion failed: %s\e[0m\n", message);
+    printf("\e[1;31mAssertion failed: %s\e[0m\n", message);
   }
 }
 

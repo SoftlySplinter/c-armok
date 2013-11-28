@@ -4,45 +4,45 @@
 
 char *syntax_error = NULL;
 
-int comment = 0;
 int prev_comment = 0;
-int sub = 0;
-int dwarf = 0;
+int _syn_dwarf = 0;
+int _syn_sub = 0;
+int _syn_comment = 0;
 
 int syntax_check_token(char token) {
   int temp_prev_comment = prev_comment;
   prev_comment = 0;
   switch(token) {
   case '\0':
-    if(!(dwarf > 0)) {
+    if(!(_syn_dwarf > 0)) {
       syntax_error = "No dwarves";
     }
-    return dwarf > 0;
+    return _syn_dwarf > 0;
   case COMMENT:
     if(temp_prev_comment) {
-      comment ^= 1;
+      _syn_comment ^= 1;
     } else {
       prev_comment = 1;
     }
     return 1;
   }
 
-  if(isspace(token) || comment) {
+  if(isspace(token) || _syn_comment) {
     return 1;
   }
 
 
   switch(token) {
   case SUB:
-    sub++;
+    _syn_sub++;
     return 1;
   case DWARF:
-    dwarf++;
+    _syn_dwarf++;
     return 1;
   }
 
   // Valid tokens, given that a sub or dwarf exists.
-  if(dwarf || sub) {
+  if(_syn_dwarf || _syn_sub) {
     switch(token) {
     case MINE:
     case DUMP:
@@ -58,10 +58,10 @@ int syntax_check_token(char token) {
 }
 
 int syntax_check(char *tokens) {
-  comment = 0;
+  _syn_comment = 0;
   prev_comment = 0;
-  dwarf = 0;
-  sub = 0;
+  _syn_dwarf = 0;
+  _syn_sub = 0;
 
   char token;
   int line = 1;
@@ -79,8 +79,8 @@ int syntax_check(char *tokens) {
         res = syntax_check_token(token);
         if(!res) {
           fprintf(stderr, "file.df:%d:%d: error: %s\n", byte, line, syntax_error);
+          end_res = 0;
         }
-        end_res = end_res && res;
         byte++;
         break;
     }
