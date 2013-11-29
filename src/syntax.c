@@ -9,7 +9,7 @@ int _syn_dwarf = 0;
 int _syn_sub = 0;
 int _syn_comment = 0;
 
-int syntax_check_token(char token) {
+int syntactically_correct(char token) {
   int temp_prev_comment = prev_comment;
   prev_comment = 0;
   switch(token) {
@@ -76,7 +76,7 @@ int syntax_check(char *tokens) {
         byte = 1;
         break;
       default:
-        res = syntax_check_token(token);
+        res = syntactically_correct(token);
         if(!res) {
           fprintf(stderr, "file.df:%d:%d: error: %s\n", byte, line, syntax_error);
           end_res = 0;

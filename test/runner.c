@@ -45,29 +45,86 @@ void syntax_tests() {
   
   // Valid tokens
   reset();
-  assert(syntax_check_token(DWARF), "'+' is a valid token");
+  assert(syntactically_correct(DWARF), "'+' is a valid token");
   assert(_syn_dwarf == 1, "'+' should have created 1 dwarf");
   assert(_syn_sub == 0, "'+' should have created 0 subs");
 
   reset();
-  assert(syntax_check_token(SUB), "'-' is a valid token");
+  assert(syntactically_correct(SUB), "'-' is a valid token");
   assert(_syn_dwarf == 0, "'-' should have created 0 dwarves");
   assert(_syn_sub == 1, "'-' should have created 1 sub");
   
   reset();
-  assert(syntax_check_token(COMMENT), "'!' is a valid token");
-  assert(syntax_check_token(COMMENT), "'!' following a '!' is a valid token");
+  assert(syntactically_correct(COMMENT), "'!' is a valid token");
+  assert(syntactically_correct(COMMENT), "'!' following a '!' is a valid token");
   assert(_syn_dwarf == 0, "'!!' should have created 0 dwarves");
   assert(_syn_sub == 0, "'!!' should have created 0 subs");
   assert(_syn_comment, "''!!' should have toggelled comment");
 
   reset();
   _syn_comment = 1;
-  assert(syntax_check_token('t'), "'t' is a valid token in comment");
-  assert(syntax_check_token(DWARF), "'+' is a valid token in comment");
+  assert(syntactically_correct('t'), "'t' is a valid token in comment");
+  assert(syntactically_correct(DWARF), "'+' is a valid token in comment");
   assert(_syn_dwarf == 0, "Comments should not create dwaves");
   assert(_syn_sub == 0, "Comments should not create subs");
-  assert(_syn_comment, "Comment should not toggle");
+  assert(_syn_comment, "Comment should not toggle due to 't' or '+'");
+
+  assert(syntactically_correct('!'), "'!' is a valid token in comment");
+  assert(_syn_comment, "Comment should not toggle after a single '!'");
+
+  assert(syntactically_correct('a'), "'a' is a valid token in comment");
+  assert(_syn_comment, "Comment should not toggle after '!a'");
+
+  assert(syntactically_correct('!'), "'!' is a valid token in comment");
+  assert(syntactically_correct('!'), "'!' is a valid token in comment");
+  assert(!_syn_comment, "'!!' should toggle comment");
+
+  reset();
+  _syn_dwarf = 1;
+  assert(syntactically_correct(MINE), "'m' is a valid token with a dwarf");
+  assert(syntactically_correct(WORK), "'w' is a valid token with a dwarf");
+  assert(syntactically_correct(DUMP), "'d' is a valid token with a dwarf");
+  assert(syntactically_correct(LEFT), "'>' is a valid token with a dwarf");
+  assert(syntactically_correct(RIGHT), "'<' is a valid token with a dwarf");
+
+  reset();
+  _syn_sub = 1;
+  assert(syntactically_correct(MINE), "'m' is a valid token with a sub");
+  assert(syntactically_correct(WORK), "'w' is a valid token with a sub");
+  assert(syntactically_correct(DUMP), "'d' is a valid token with a sub");
+  assert(syntactically_correct(LEFT), "'>' is a valid token with a sub");
+  assert(syntactically_correct(RIGHT), "'<' is a valid token with a sub");
+
+  // Syntactically Incorrect Tokens
+  reset();
+  assert(!syntactically_correct(MINE), "'m' is a not valid token with no dwarf or sub");
+  assert(!syntactically_correct(WORK), "'w' is a not valid token with no dwarf or sub");
+  assert(!syntactically_correct(DUMP), "'d' is a not valid token with no dwarf or sub");
+  assert(!syntactically_correct(LEFT), "'>' is a not valid token with no dwarf or sub");
+  assert(!syntactically_correct(RIGHT), "'<' is a not valid token with no dwarf or sub");
+
+  // Automare a-z
+  for(int i = 'a'; i <= 'z'; i++) {
+    char message[26] = "' ' is not a valid token.";
+    switch(i) {
+      case DWARF:
+      case SUB:
+      case MINE:
+      case WORK:
+      case DUMP:
+      case LEFT:
+      case RIGHT:
+        break;
+      default:
+        message[1] = i;
+        reset();
+        assert(!syntactically_correct(i), message);
+    }
+  }
+
+  reset();
+  syntactically_correct('!');
+  assert(!syntactically_correct('a'), "'!a' is not syntactically correct");
 }
 
 int main(int argc, char **argv) {

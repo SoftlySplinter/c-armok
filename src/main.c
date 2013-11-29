@@ -28,7 +28,7 @@ char *load(char *filename) {
     buffer = malloc (length);
     if (buffer)
     {
-      fread (buffer, 1, length, f);
+      int res = fread (buffer, 1, length, f);
     }
     fclose (f);
   }
