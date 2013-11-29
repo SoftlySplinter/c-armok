@@ -48,11 +48,13 @@ test: compile_tests
 
 compile_tests: runner
 
-runner: syntax_tests unit
-	${CC} -o ${OUT}/runner.o ${ALLFLAGS} ${TEST}/runner.c ${OUT}/syntax_tests.o ${OUT}/unit.o ${OUT}/syntax.o
+runner: tests unit
+	${CC} -o ${OUT}/runner.o ${ALLFLAGS} ${TEST}/runner.c ${OUT}/tests-s.o ${OUT}/tests-p.o ${OUT}/tests-r.o ${OUT}/unit.o ${OUT}/syntax.o ${OUT}/parse.o ${OUT}/run.o ${OUT}/encode.o
 
-syntax_tests:
-	${CC} -c -o ${OUT}/syntax_tests.o ${ALLFLAGS} ${TEST}/syntax.c
+tests:
+	${CC} -c -o ${OUT}/tests-s.o ${ALLFLAGS} ${TEST}/syntax.c
+	${CC} -c -o ${OUT}/tests-p.o ${ALLFLAGS} ${TEST}/parse.c
+	${CC} -c -o ${OUT}/tests-r.o ${ALLFLAGS} ${TEST}/run.c
 
 unit:
 	${CC} -c -o ${OUT}/unit.o ${ALLFLAGS} ${TEST}/unit.c

@@ -23,7 +23,6 @@ typedef struct _fortress {
 // Parses a program file
 fortress *parse(char *tokens);
 
-
 void free_fort(fortress* fortress);
 
 #endif // ARMOK_PARSE

@@ -20,7 +20,7 @@ int syntactically_correct(char token) {
     return _syn_dwarf > 0;
   case COMMENT:
     if(temp_prev_comment) {
-      _syn_comment ^= 1;
+      _syn_comment = !(_syn_comment);
     } else {
       prev_comment = 1;
     }

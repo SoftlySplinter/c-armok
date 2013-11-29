@@ -92,7 +92,7 @@ void work_trader(dwarf *dwarf) {
 }
 
 void work_manager(dwarf *dwarf) {
-  if(world[dwarf->pos] > fort->dwarf_size) {
+  if(world[dwarf->pos] > (fort->dwarf_size + fort->sub_size)) {
     fprintf(stderr, "A dwarf was executed for breaking a mandate\n");
     dwarf->dead = 1;
   } else if(world[dwarf->pos] == 0) {

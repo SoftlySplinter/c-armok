@@ -3,9 +3,13 @@
 
 #include "unit.h"
 #include "syntax.h"
+#include "parse.h"
+#include "run.h"
 
 int main(int argc, char **argv) {
   syntax_tests();
+  parse_tests();
+  run_tests();
 
 
   if(number_of_errors() > 0) {
