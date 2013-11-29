@@ -1,0 +1,1 @@
+void syntax_tests();
