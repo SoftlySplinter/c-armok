@@ -96,12 +96,9 @@ fortress *parse(char *tokens) {
         cur->rocks = 0;
         fort->dwarves[cur_id] = cur;
 
-        if(l < 1) {
-          fort->dwarves[cur_id]->instructions = malloc(sizeof(char));
-          fort->dwarves[cur_id]->instructions[0] = '\0';
-        } else {
-          fort->dwarves[cur_id]->instructions = malloc(sizeof(char) * l);
-        }
+        cur->instructions = malloc(sizeof(char) * l + 1);
+        cur->instructions[l] = '\0';
+
         step = 0;
         break;
       case MINE:
