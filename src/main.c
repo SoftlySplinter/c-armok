@@ -7,7 +7,7 @@
 #include "run.h"
 
 int dwarves_alive(fortress *fort) {
-  for(int i = 0; i < fort->dwarf_size; i++) {
+  for(int i = 0; i < (fort->dwarf_size + fort->sub_size); i++) {
     if(!fort->dwarves[i]->dead) {
       return 1;
     }
@@ -28,7 +28,7 @@ char *load(char *filename) {
     buffer = malloc (length);
     if (buffer)
     {
-      fread (buffer, 1, length, f);
+      int res = fread (buffer, 1, length, f);
     }
     fclose (f);
   }
@@ -51,15 +51,13 @@ int main(int argc, char** argv) {
     setup(argv[2], fort);
 
     while(dwarves_alive(fort)) {
-      for(int i = 0; i < fort->dwarf_size; i++) {
-        step(fort->dwarves[i]);
-      }
-      step_inc();
+      step();
     }
 
     free_fort(fort);
     teardown();
     free(prog);
+    printf("\n");
   }
 
   return EXIT_SUCCESS;
