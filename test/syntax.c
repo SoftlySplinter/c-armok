@@ -129,11 +129,13 @@ void incorrect_syntax() {
   assert(!syntax_check("m+"), "'m+' is not syntactically correct.");
 }
 
-void syntax_tests() {
+int  syntax_tests() {
   correct_tokens();
   incorrect_tokens();
 
   correct_syntax();
   incorrect_syntax();
+
+  return report("Syntax");
 }
 

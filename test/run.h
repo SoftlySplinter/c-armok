@@ -1,1 +1,1 @@
-void run_tests();
+int run_tests();

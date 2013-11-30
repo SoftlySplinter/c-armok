@@ -1,1 +1,1 @@
-void syntax_tests();
+int syntax_tests();

@@ -126,7 +126,8 @@ void test_basic() {
   assert(fort->dwarves[0]->rocks == 0, "Dwarf 0 should have 0 rocks after building a workshop, not %d", fort->dwarves[0]->pos);
 }
 
-void run_tests() {
+int run_tests() {
   test_basic();
+  return report("Run");
 }
 

@@ -1,1 +1,1 @@
-void parse_tests();
+int parse_tests();

@@ -30,6 +30,7 @@ void do_valid_parse(char *inst, int no_dwarves, int no_subs, ...) {
 
   free_fort(fort);
   va_end(args);
+
 }
 
 void valid_parse() {
@@ -80,8 +81,10 @@ void invalid_parse() {
 
 }
 
-void parse_tests() {
+int parse_tests() {
   valid_parse();
   invalid_parse();
+
+  return report("Parse");
 }
 
