@@ -9,10 +9,14 @@
 #define MANAGER 2
 #define APPRAISER 3
 
+extern int rock_pos;
+extern int *world;
+extern int *workshops;
+extern int step_count; 
 
 void setup();
 void teardown();
-void step(dwarf *dwarf);
-void step_inc();
+void step();
+void do_step(dwarf *dwarf);
 
 #endif

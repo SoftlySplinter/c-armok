@@ -1,0 +1,1 @@
+int syntax_tests();
