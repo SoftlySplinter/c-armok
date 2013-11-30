@@ -7,19 +7,21 @@
 #include "syntax.h"
 #include "run.h"
 
-int step_count = 0;
-int rock_pos = 4;
+int step_count;
+int rock_pos;
 int* world;
 int* workshops;
 fortress* fort;
 wchar_t* input = NULL;
-int input_off = 0;
+int input_off;
 
 void setup(char *in, fortress *_fort) {
   if(in != NULL) {
     input = malloc(sizeof(wchar_t) * strlen(in));
     mbstowcs(input, in, strlen(in));
   }
+  step_count = 0;
+  rock_pos = 4;
   world = malloc(sizeof(int) * WORLD_SIZE);
   workshops = malloc(sizeof(int) * WORLD_SIZE);
   fort = _fort;
@@ -36,10 +38,17 @@ void setup(char *in, fortress *_fort) {
 }
 
 void teardown() {
-  printf("\n");
   free(input);
   free(world);
   free(workshops);
+  fort = NULL;
+}
+
+void step() {
+  for(int i = 0; i < fort->dwarf_size + fort->sub_size; i++) {
+    do_step(fort->dwarves[i]);
+  }
+  step_count++;
 }
 
 void move(dwarf *dwarf, int direction) {
@@ -154,7 +163,7 @@ void work(dwarf *dwarf) {
   }
 }
 
-void step(dwarf *dwarf) {
+void do_step(dwarf *dwarf) {
   if(!dwarf->dead) {
     if(strlen(dwarf->instructions) <= dwarf->inst_offset + step_count) {
       fprintf(stderr, "A dwarf was struck by melancholy\n");

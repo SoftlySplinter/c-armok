@@ -1,15 +1,21 @@
 #include <stdio.h>
+#include <stdarg.h>
 
 #include "unit.h"
 
 int errors;
 int asserts;
 
-void assert(int condition, char *message) {
+void assert(int condition, const char *message, ...) {
   asserts++;
   if(!condition) {
     errors++;
-    printf("\e[1;31mAssertion failed: %s\e[0m\n", message);
+    va_list arg;
+    va_start(arg, message);
+    printf("\e[1;31mAssertion failed: ");
+    vprintf(message, arg);
+    printf("\e[0m\n");
+    va_end(arg);
   }
 }
 

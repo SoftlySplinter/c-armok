@@ -51,15 +51,13 @@ int main(int argc, char** argv) {
     setup(argv[2], fort);
 
     while(dwarves_alive(fort)) {
-      for(int i = 0; i < (fort->dwarf_size + fort->sub_size); i++) {
-        step(fort->dwarves[i]);
-      }
-      step_inc();
+      step();
     }
 
     free_fort(fort);
     teardown();
     free(prog);
+    printf("\n");
   }
 
   return EXIT_SUCCESS;
