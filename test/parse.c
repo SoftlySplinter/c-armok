@@ -42,7 +42,38 @@ void valid_parse() {
   do_valid_parse("+mmmm", 1, 0, "mmmm");
   do_valid_parse("+mmmmmmmmmmmmmmmmmmmm", 1, 0, "mmmmmmmmmmmmmmmmmmmm");
   do_valid_parse("++<+w+>>>+>>mww", 5, 0, "", "<", "w", ">>>", ">>mww");
+
+  // From FUN.df
   do_valid_parse("+>>mmwm>d<w-><w+ww", 2, 1, ">>mmwm>d<w", "><w", "ww");
+
+  // From HELLO.df
+  do_valid_parse("->mmwmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm\
+mmmmmmm>d<d<->w<-ddddddddddddddddddddddddddddddddddddddddddd\
+ddddddddddddddddddd>w<+>>mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm\
+mmmmmmmmmmmmmmmmmmmmmmmmmmmmmddddddddddddddddddddddddddddddd\
+ddddddddddddddddddddddddddddddddd>mm<w>mmmdddmmwmmmmmmmmmmmm\
+mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm>d<<w\
+wwwwwwwwwwwwwwwwwddddddddddddddddddddddddddddddddddddddddddd\
+ddddddddddddddddd<mmm>wddw<<mmm>>>>ddd<ww<<<mmmmmmmm>>w>www<\
+<<mmmmm>>w>www<<<mmmmmmmmmmmm>>w>www<<<mmmmmmmmmmmm>>w>www<<\
+<mmmmmmmmmmmmmmm>>w>w<w>ww<<<mmmmmmmmmmmmmmmmmmmmmmm>>w>www<\
+<<mmmmmmmmmmmmmmm>>w>www<<<mmmmmmmmmmmmmmmmmm>>w>www<<<mmmmm\
+mmmmmmm>>w>www<<<mmmm>>w>w<<<m>>w<<<-<<<mmmmmmmmmmmmmmmmmmmm\
+mmmmmmmmmmmm>>>",
+1,
+4,
+">mmwmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm>d<d<",
+">w<",
+"dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd>w<",
+">>mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmdddddddddddd\
+dddddddddddddddddddddddddddddddddddddddddddddddddddd>mm<w>mmmdddmmwmmmmmmmmmmmm\
+mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm>d<<wwwwwwwwwwwwwwwwwwdd\
+dddddddddddddddddddddddddddddddddddddddddddddddddddddddddd<mmm>wddw<<mmm>>>>ddd\
+<ww<<<mmmmmmmm>>w>www<<<mmmmm>>w>www<<<mmmmmmmmmmmm>>w>www<<<mmmmmmmmmmmm>>w>ww\
+w<<<mmmmmmmmmmmmmmm>>w>w<w>ww<<<mmmmmmmmmmmmmmmmmmmmmmm>>w>www<<<mmmmmmmmmmmmmm\
+m>>w>www<<<mmmmmmmmmmmmmmmmmm>>w>www<<<mmmmmmmmmmmm>>w>www<<<mmmm>>w>w<<<m>>w<<\
+<",
+"<<<mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm>>>");
 }
 
 void invalid_parse() {
