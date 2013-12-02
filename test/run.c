@@ -44,7 +44,7 @@ void test_run_setup() {
     }
   }
   // TODO build a string with the incorrect positions in.
-  assert(pos_wrong == 0, "Positions after %d should have 64 rocks, found %d places with rocks != 64", WORLD_SIZE);
+  assert(pos_wrong == 0, "Positions after %d should have 64 rocks, found %d places with rocks != 6", WORLD_SIZE);
   assert(work_wrong == 0, "World should start with no workshops, found %d workshops.", work_wrong);
 
   for(int i = 0; i < fort->dwarf_size + fort->sub_size; i++) {
@@ -168,11 +168,15 @@ void test_input() {
   step();
   step();
   step();
-  assert(fort->dwarves[0]->rocks == 1, "Dwarf 0 should have picked up 1 rock due to mining, not %d", fort->dwarves[0]->pos);
   step();
   step();
   assert(fort->dwarves[0]->dead, "Dwarf 0 should have been backstabbed by Elves.");
   teardown();
+
+  fort = do_test("+>>mww", "H");
+  step(); step(); step(); step(); step();
+  assert(fort->dwarves[0]->rocks == 72, "Dwarf 0 should have been given 72 rock from the trader (Input string \"H\"), but has %d", fort->dwarves[0]->rocks);
+  assert(!fort->dwarves[0]->dead, "Dwarf 0 should not have been backstabbed by Elves.");
 }
 
 int run_tests() {
