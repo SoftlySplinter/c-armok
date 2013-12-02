@@ -4,8 +4,8 @@
 
 #include "unit.h"
 
-int errors;
-int asserts;
+int errors = 0;
+int asserts = 0;
 
 char **error_messages;
 
