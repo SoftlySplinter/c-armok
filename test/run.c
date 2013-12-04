@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <wchar.h>
 
 #include "unit.h"
 #include "run.h"
@@ -88,6 +89,7 @@ void test_move() {
   step();
   assert(fort->dwarves[0]->dead, "Dwarf 0 should have died of melancholy.");
   teardown();
+  free_fort(fort);
 
   fort = do_test("+><", NULL);
   step();
@@ -97,6 +99,7 @@ void test_move() {
   step();
   assert(fort->dwarves[0]->dead, "Dwarf 0 should have died of melancholy.");
   teardown();
+  free_fort(fort);
 
   fort = do_test("+>>>", NULL);
   assert(!fort->dwarves[0]->dead, "Dwarf 0 should start alive.");
@@ -108,6 +111,7 @@ void test_move() {
   assert(fort->dwarves[0]->pos == 4, "Dwarf 0 should have moved to position 4, not %d", fort->dwarves[0]->pos);
   assert(fort->dwarves[0]->dead, "Dwarf 0 should have been hammered by stone.");
   teardown();
+  free_fort(fort);
 }
 
 void test_mine() {
@@ -117,6 +121,8 @@ void test_mine() {
   step();
   assert(rock_pos == 4, "Rock position should not have moved from position %d", rock_pos);
   assert(fort->dwarves[0]->rocks == 0, "Dwarf 0 should not have picked up any rocks, but has %d rocks", fort->dwarves[0]->pos);
+  teardown();
+  free_fort(fort);
 
   fort = do_test("+>>m", NULL);
   step();
@@ -128,6 +134,7 @@ void test_mine() {
   step();
   assert(fort->dwarves[0]->dead, "Dwarf 0 should have been struck by melancholy.");
   teardown();
+  free_fort(fort);
 }
 
 void test_dump() {
@@ -137,6 +144,8 @@ void test_dump() {
   step();
   assert(fort->dwarves[0]->rocks == 0, "Dwarf 0 should still have 0 rocks, not %d", fort->dwarves[0]->rocks);
   assert(world[0] == 0, "Position 0 should still have 0 rocks, not %d", world[0]);
+  teardown();
+  free_fort(fort);
 
   fort = do_test("+>>md", NULL);
   step();
@@ -146,6 +155,7 @@ void test_dump() {
   assert(fort->dwarves[0]->rocks == 0, "Dwarf 0 should have 0 rocks after dumping, not %d", fort->dwarves[0]->rocks);
   assert(world[2] == 1, "Position 2 should have 1 rock after dumping, not %d", world[2]);
   teardown();
+  free_fort(fort);
 }
 
 void test_work() {
@@ -159,9 +169,11 @@ void test_work() {
   assert(workshops[3] == TRADER, "Workshop position 3 should have a Trade Depo, not %s", res_workshop(workshops[4]));
   assert(fort->dwarves[0]->rocks == 0, "Dwarf 0 should have 0 rocks after building a workshop, not %d", fort->dwarves[0]->pos);
   teardown();
+  free_fort(fort);
 }
 
 void test_input() {
+  print = 0;
   fortress *fort = NULL;
 
   fort = do_test("+>>mww", NULL);
@@ -172,11 +184,26 @@ void test_input() {
   step();
   assert(fort->dwarves[0]->dead, "Dwarf 0 should have been backstabbed by Elves.");
   teardown();
+  free_fort(fort);
 
-  fort = do_test("+>>mww", "H");
-  step(); step(); step(); step(); step();
+  fort = do_test("+>>mwww", "H");
+  step();
+  step();
+  step();
+  step(); 
+  step();
   assert(fort->dwarves[0]->rocks == 72, "Dwarf 0 should have been given 72 rock from the trader (Input string \"H\"), but has %d", fort->dwarves[0]->rocks);
   assert(!fort->dwarves[0]->dead, "Dwarf 0 should not have been backstabbed by Elves.");
+  step();
+  wchar_t *expected = L"H";
+  assert(wcscmp(expected, output) == 0, "Output expected to have %ls but was %ls", expected, output);
+  step();
+  assert(fort->dwarves[0]->dead, "Dwarf 0 should have been backstabbed by Elves.");
+  assert(wcscmp(expected, output) == 0, "Output expected to remain %ls but was %ls", expected, output);
+  teardown();
+  free_fort(fort);
+
+  print = 1;
 }
 
 int run_tests() {

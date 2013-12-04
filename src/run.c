@@ -12,14 +12,20 @@ int rock_pos;
 int* world;
 int* workshops;
 fortress* fort;
-wchar_t* input = NULL;
+wchar_t *input = NULL;
+wchar_t *output = NULL;
 int input_off;
+int output_off;
+int print = 1;
 
 void setup(char *in, fortress *_fort) {
   if(in != NULL) {
     input = malloc(sizeof(wchar_t) * strlen(in));
     mbstowcs(input, in, strlen(in));
   }
+  output = malloc(sizeof(wchar_t));
+  output[0] = '\0';
+  output_off = 0;
   step_count = 0;
   rock_pos = 4;
   world = malloc(sizeof(int) * WORLD_SIZE);
@@ -39,6 +45,7 @@ void setup(char *in, fortress *_fort) {
 
 void teardown() {
   free(input);
+  free(output);
   free(world);
   free(workshops);
   fort = NULL;
@@ -95,7 +102,16 @@ void work_trader(dwarf *dwarf) {
       input_off++;
     }
   } else {
-    printf("%lc", encode(dwarf->rocks));
+    output_off++;
+    output = realloc(output, sizeof(wchar_t) * (output_off + 1));
+    wchar_t c = encode(dwarf->rocks);
+    output[output_off - 1] = c;
+    output[output_off] = '\0';
+
+    if(print) {
+      printf("%lc", c);
+    }
+
     dwarf->rocks = 0;
   }
 }
