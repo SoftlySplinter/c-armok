@@ -1,5 +1,7 @@
 # Armok
 
+![Logo](other/logo.png)
+
 > Programming is fun!<hr />
 
 [![Build Status](https://travis-ci.org/SoftlySplinter/c-armok.png?branch=workshop/test)](https://travis-ci.org/SoftlySplinter/c-armok)

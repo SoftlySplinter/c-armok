@@ -11,7 +11,7 @@ void do_valid_parse(char *inst, int no_dwarves, int no_subs, ...) {
   va_list args;
   va_start(args, no_dwarves + no_subs);
   fortress *fort = parse(inst);
-  char message[64 + strlen(inst)];// = "'%s' should have created 1 dwarves and 1 subs"
+  char message[64 + strlen(inst)];
   sprintf(message, "'%s' expected %d dwarves, %d subs. Actual %d dwarves, %d subs", inst, no_dwarves, no_subs, fort->dwarf_size, fort->sub_size);
 
   int res = fort->dwarf_size == no_dwarves && fort->sub_size == no_subs;
@@ -78,7 +78,6 @@ m>>w>www<<<mmmmmmmmmmmmmmmmmm>>w>www<<<mmmmmmmmmmmm>>w>www<<<mmmm>>w>w<<<m>>w<<\
 }
 
 void invalid_parse() {
-
 }
 
 int parse_tests() {
